@@ -28,12 +28,12 @@
       <label class="field" id="userField">Username
         <input id="username" autocomplete="username" autocapitalize="none" placeholder="e.g. alex_22" maxlength="20">
       </label>
-      <label class="field">Email
-        <input id="email" type="email" autocomplete="email" placeholder="you@example.com">
+      <label class="field" id="emailField"><span id="emailLabel">Email or Username</span>
+        <input id="email" type="text" autocomplete="email" placeholder="you@example.com or username">
       </label>
-      <label class="field">Password
-        <input id="password" type="password" autocomplete="current-password" placeholder="At least 6 characters">
-      </label>
+      <div class="field"><label for="password">Password</label>
+        <span class="pw"><input id="password" type="password" autocomplete="current-password" placeholder="At least 6 characters"><button type="button" class="eye" aria-label="Show password"></button></span>
+      </div>
       <p class="err" id="authErr" role="alert"></p>
       <button class="btn" id="authBtn" type="submit">Log in</button>
     </form>
@@ -47,7 +47,7 @@
     <div><h1>Streak</h1><p id="date"></p></div>
     <div style="display:flex;gap:8px;align-items:center">
       <button class="icon-btn" id="theme" aria-label="Toggle light or dark theme">◐</button>
-      <button class="icon-btn" id="logout" aria-label="Log out">⏻</button>
+      <button class="icon-btn" id="headerAccountBtn" aria-label="Account Settings">👤</button>
     </div>
   </header>
 
@@ -83,9 +83,14 @@
       </div>
       <div class="grid" id="dows"></div>
       <div class="grid" id="cal" style="margin-top:2px"></div>
-      <div class="legend"><span class="lg">Clean</span><span class="lr">Failed</span><span>Not logged</span></div>
+      <div class="legend">
+        <span class="lg">Clean</span>
+        <span class="lr">Failed</span>
+        <span class="lg-grey">Unlogged (Locked)</span>
+        <span class="lg-edit">Editable</span>
+      </div>
     </section>
-    <div class="foot"><button id="reset">Erase my logged days</button></div>
+    <div class="foot">Only today and yesterday can be changed. Older days are locked.</div>
   </main>
 
   <!-- Friends -->
@@ -112,11 +117,48 @@
     </section>
   </main>
 
+  <!-- Account Center -->
+  <main class="app single hidden" id="pageAccount">
+    <section class="card">
+      <h2 class="sec-title">Account Center</h2>
+      <p class="note" style="margin-bottom: 16px;">Manage your profile settings.</p>
+      
+      <div class="field">
+        <label>Email</label>
+        <input id="accEmail" type="text" disabled style="opacity:0.75; cursor:not-allowed;">
+      </div>
+      
+      <form id="accForm" novalidate>
+        <div class="field">
+          <label for="accUsername">Username</label>
+          <input id="accUsername" type="text" autocomplete="username" autocapitalize="none" maxlength="20" placeholder="Username">
+        </div>
+        <p class="err" id="accErr" role="alert"></p>
+        <button class="btn" id="accSaveBtn" type="submit" style="margin-bottom: 20px;">Save Username</button>
+      </form>
+
+      <hr style="border: 0; border-top: 1px solid var(--line); margin: 20px 0;">
+
+      <button class="btn ghost danger-btn" id="logout" type="button">Log Out</button>
+    </section>
+  </main>
+
   <nav class="nav-bar" aria-label="Main">
     <button class="on" data-tab="home">Home</button>
     <button data-tab="friends">Friends<span class="badge hidden" id="badge">0</span></button>
+    <button data-tab="account">Account</button>
   </nav>
 </div>
+
+<!-- Confirm password popup (sign up) -->
+<div class="scrim" id="confirmScrim"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+  <h3 id="confirmTitle">Confirm your password</h3>
+  <p class="note" style="text-align:center;margin:0 0 14px">Type your password again. It stays visible so you can check it.</p>
+  <div class="field"><span class="pw"><input id="confirmPw" type="text" autocomplete="off" autocapitalize="none" placeholder="Re-enter password"><button type="button" class="eye" aria-label="Show password"></button></span></div>
+  <p class="err" id="confirmErr" role="alert"></p>
+  <button class="btn" id="confirmBtn" type="button" disabled>Please wait 3s</button>
+  <button class="link" id="confirmCancel" type="button">Go back</button>
+</div></div>
 
 <!-- Day editor sheet -->
 <div class="scrim" id="scrim"><div class="sheet" role="dialog" aria-modal="true">

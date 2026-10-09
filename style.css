@@ -52,16 +52,52 @@ header p{margin:2px 0 0;color:var(--muted);font-size:.85rem}
 .nav:disabled{opacity:.3}
 .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
 .dow{text-align:center;color:var(--muted);font-size:.75rem;padding-bottom:4px}
-.day{aspect-ratio:1;border-radius:12px;font-weight:600;font-size:.95rem;display:grid;place-items:center;background:transparent;border:1px solid transparent;color:var(--text)}
-.day.empty{pointer-events:none}
-.day.c{background:var(--green);color:#06281a}
-.day.f{background:var(--red);color:#fff}
-.day.fut{color:var(--muted);opacity:.4;pointer-events:none}
-.day:not(.c):not(.f):not(.fut):not(.empty){background:var(--bg);border-color:var(--line)}
+
+/* Calendar Days */
+.day{
+  aspect-ratio:1;
+  border-radius:12px;
+  font-weight:600;
+  font-size:.95rem;
+  display:grid;
+  place-items:center;
+  background:var(--bg);
+  border:1px solid var(--line);
+  color:var(--text);
+  transition:transform 0.1s ease;
+}
+.day.empty{pointer-events:none;visibility:hidden}
+.day.c{background:var(--green);color:#06281a;border-color:var(--green)}
+.day.f{background:var(--red);color:#fff;border-color:var(--red)}
+.day.fut{color:var(--muted);opacity:.35;pointer-events:none;background:transparent;border-color:transparent}
 .day.today-d{outline:2px solid var(--accent);outline-offset:2px}
+
+/* Editable (Today & Yesterday) vs Locked Past Days */
+.day.editable:not(.c):not(.f){
+  background:var(--card);
+  border:2px dashed var(--accent);
+  color:var(--accent);
+}
+.day.lock{
+  cursor:not-allowed;
+}
+.day.lock:not(.c):not(.f){
+  background:rgba(120,120,140,0.12);
+  border-color:transparent;
+  color:var(--muted);
+  opacity:0.65;
+}
+.day.lock.c,.day.lock.f{
+  opacity:0.85;
+}
+
 .legend{display:flex;gap:16px;margin-top:14px;color:var(--muted);font-size:.82rem;flex-wrap:wrap}
 .legend span::before{content:"";display:inline-block;width:11px;height:11px;border-radius:4px;margin-right:6px;background:var(--line);vertical-align:-1px}
-.legend .lg::before{background:var(--green)}.legend .lr::before{background:var(--red)}
+.legend .lg::before{background:var(--green)}
+.legend .lr::before{background:var(--red)}
+.legend .lg-grey::before{background:rgba(120,120,140,0.4)}
+.legend .lg-edit::before{background:transparent;border:2px dashed var(--accent)}
+
 .foot{text-align:center;color:var(--muted);font-size:.8rem;display:grid;gap:8px;justify-items:center}
 .foot button{text-decoration:underline;color:var(--muted);padding:6px}
 .scrim{position:fixed;inset:0;background:rgba(5,7,16,.55);display:none;align-items:flex-end;justify-content:center;z-index:10}
@@ -100,6 +136,8 @@ input:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
 .btn.small{width:auto;padding:8px 14px;font-size:.88rem;border-radius:12px}
 .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
 .btn.good{background:var(--green);color:#06281a}
+.btn.danger-btn{border-color:var(--red);color:var(--red)}
+.btn.danger-btn:hover{background:var(--red-bg)}
 .link{color:var(--accent);padding:10px;text-decoration:underline;width:100%;text-align:center;margin-top:6px}
 .err{color:var(--red);font-size:.88rem;min-height:1.3em;margin:0 0 8px}
 .err.okc{color:var(--green)}
@@ -117,3 +155,10 @@ input:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
 .search{display:flex;gap:8px;margin-bottom:8px}
 .search .btn{width:auto;padding:0 18px}
 .me-chip{display:flex;align-items:center;gap:8px;font-size:.9rem;color:var(--muted)}
+
+/* ---------- v3: password eye ---------- */
+.pw{position:relative;display:block}
+.pw input{padding-right:50px}
+.eye{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:42px;height:42px;display:grid;place-items:center;color:var(--muted);border-radius:12px}
+.eye .slash{display:none}
+.eye.shown .slash{display:inline}
